@@ -52,7 +52,9 @@ CONTENT
       
       def user_contents
         <<CONTENT
-  has_and_belongs_to_many :{table_name}
+  include FibzaRole::UserAdditions
+  
+  has_and_belongs_to_many :#{table_name}
 CONTENT
       end
       
