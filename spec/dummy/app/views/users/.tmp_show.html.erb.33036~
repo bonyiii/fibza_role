@@ -1,0 +1,3 @@
+<h1><%= @user.login %>'s show page</h1>
+<br />
+Users can only seen their own show page. 
