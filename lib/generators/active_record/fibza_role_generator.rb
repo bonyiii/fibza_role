@@ -46,6 +46,7 @@ module ActiveRecord
   include FibzaRole::RoleAdditions
   
   has_and_belongs_to_many :#{user_model.tableize}
+  validates_presence_of :name
 CONTENT
       end
       

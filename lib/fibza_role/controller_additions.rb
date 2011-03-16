@@ -37,7 +37,8 @@ module FibzaRole
     # Do a simple check in a controller method. Only checks if user can access the Controller::method. 
     #
     # authorize! @product
-    # Check if user has right to access product model in question. The controller::method must be defined in right.rb
+    # Check if user has right to access product model in question. 
+    # The controller::method must be defined in right.rb
     def authorize!(*args)
       controller = params[:controller] 
       action = params[:action]
