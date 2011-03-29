@@ -16,14 +16,16 @@ module FibzaRole
     # == Example 
     # before_filter :check_rights
     def check_rights(*args)
+      
       if current_user.can?(params[:controller], params[:action], *params)
         return true
       else
         raise AccessDenied.new#(message, action, subject)
       end
+    
     end
     
-    # If "controller_action" method exists in "app/models/fibza_role/right.rb", it checks rules defined there.
+    # If "namespace_controller_action" or "controller_action" method exists in "app/models/fibza_role/right.rb", it checks rules defined there.
     # If no such method exists, simply checks whether current_user has a role which has a permission "controller::action".
     # If any returns "true" authorization passese otherwise raise an AccessDenied error.
     #
@@ -40,7 +42,8 @@ module FibzaRole
     # Check if user has right to access product model in question. 
     # The controller::method must be defined in right.rb
     def authorize!(*args)
-      controller = params[:controller] 
+      
+      controller = params[:controller].gsub("/","_")
       action = params[:action]
 
       if FibzaRole::Right.methods.include?("#{controller.underscore}_#{action.downcase}".to_sym)

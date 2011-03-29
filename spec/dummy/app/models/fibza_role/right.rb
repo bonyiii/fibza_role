@@ -8,7 +8,7 @@ module FibzaRole
     # * +current_user+ - user whose right we check    
     # * +subject+ - model instance in question
     #
-    # == Example
+    # == Examples
     # This case we check UsersController show action
     # We have 4 case
     # 1; User has a "super_admin" role. First if will be true
@@ -24,7 +24,15 @@ module FibzaRole
     #     false
     #   end
     # end
-    
+    #
+    # Namespaced controllers are available in converted underscore format.
+    # For example: Admin::UsersController
+    # params[:controller] = "admin/users"
+    # params[:action] = "index"
+    #    
+    # def self.admin_users_index
+    #   true if current_user.has_role("admin")
+    # end
     def self.users_index(user, *args)
       if user.login == "admin"
         true
@@ -35,6 +43,11 @@ module FibzaRole
       if user == subject
         true
       end
+    end
+    
+    
+    def right(controller, action, &block)
+      yield
     end
     
   end

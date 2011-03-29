@@ -88,6 +88,11 @@ describe FibzaRole do
       role_test.has_permission?("cONTroller", "ACTiON").should be_false
     end
     
+    it "permission controllers can be namespaced" do
+      role_test.add_permission("namespace/controller","index")
+      role_test.has_permission?("namespace/controller","index").should be_true
+    end
+    
     it "permissions can be nil" do
       role_test.permissions.should be_nil
     end

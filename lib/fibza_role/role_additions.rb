@@ -3,17 +3,22 @@ module FibzaRole
   # Method additions for role model
   module RoleAdditions
     
-    # Each line line is a permission accessible for role.
-    # A permission can be
-    # 1; Controller::action
-    # 2; Controller::extra_method
-    # In the second case the app/model/right.rb should refer to extra_method this way
-    # the authorization logic defined there but that special role can be assigned to any
-    # role in the database.  
+    # Each line is a permission for the given role.
+    # Namespaced controllers stored in the following format: "namespace/controller::action"
+    # Rails params hash stores namespaced controllers this way: "namespace/controller"
+    #
+    # A permission can be:
+    # 1; namespace/controller::action
+    # 2; controller::action
+    # 3; ontroller::extra_method
+    # 4; namespace/controller::extra_method
+    #
+    # extra_method : app/model/right.rb should contains method named "extra_method" this way
+    # the logic defined there, but the action can be assigned to any role.
     #
     # == Params
-    # * +subject+ - Controller
-    # * +action+ - action / unique method
+    # * +subject+ - Namespace/Controller or Controller
+    # * +action+ - action / extra method (Defined in right.rb)
     # * +args+ - options 
     # 
     # Permission gets stored in the following format: Controller::action\n
