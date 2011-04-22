@@ -1,5 +1,5 @@
 module FibzaRole
-
+  
   # Method additions for role model
   module RoleAdditions
     
@@ -24,12 +24,32 @@ module FibzaRole
     # Permission gets stored in the following format: Controller::action\n
     def add_permission(subject, action, *args)
       self.permissions ||= ""
-      self.permissions += "#{permission_to_s(subject, action, *args)}\n" unless has_permission?(subject, action, *args)
+      unless subject.blank? && action.blank? || has_permission?(subject, action, *args)
+        self.permissions += "#{permission_to_s(subject, action, *args)}\n"
+        true
+      else
+        false
+      end
+    end
+    
+    def add_permission!(subject, action, *args)
+      raise CannotAddPermission("Controller cannot be blank!") if subject.blank?
+      raise CannotAddPermission("Action cannot be blank!") if action.blank?
+      if add_permission(subject, action, *args) == false
+        raise CannotAddPermission
+      else
+        true
+      end
     end
     
     # Revoke a permission from role in question.
     def revoke_permission(subject, action, *args)
-      self.permissions.sub!("#{permission_to_s(subject, action, *args)}\n","") unless permissions.nil?
+      if !permissions.nil? && !subject.blank? && !action.blank? && has_permission?(subject, action, *args)
+        self.permissions.sub!("#{permission_to_s(subject, action, *args)}\n","")
+        true
+      else
+        false
+      end
     end
     
     # Checks if the role in question are permitted to executes the given action.
@@ -42,7 +62,7 @@ module FibzaRole
     def permission_to_s(subject, action, *args)
       "#{subject.underscore}::#{action.downcase}"
     end
-
+    
   end
-
+  
 end

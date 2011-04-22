@@ -97,6 +97,24 @@ describe FibzaRole do
       role_test.permissions.should be_nil
     end
     
+    it "add_permission/revoke_permission handles nil parameters" do
+      role_test.add_permission(nil,nil).should be_false
+      role_test.revoke_permission(nil,nil).should be_false
+      expect{ role_test.add_permission(nil,nil) }.to_not raise_error
+      expect{ role_test.revoke_permission(nil,nil) }.to_not raise_error
+    end
+    
+    it "add_permsission warns if a permission already assigned to role" do
+      role_test.add_permission("Controller", "action").should be_true
+      role_test.add_permission("Controller", "action").should be_false
+    end
+    
+    it "revoke_permsission warns if a permission already assigned to role" do
+      role_test.add_permission("Controller", "action").should be_true
+      role_test.revoke_permission("Controller", "action").should be_true
+      role_test.revoke_permission("Controller", "action").should be_false
+    end
+    
   end
   
 end
