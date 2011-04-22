@@ -24,7 +24,7 @@ module FibzaRole
     # Permission gets stored in the following format: Controller::action\n
     def add_permission(subject, action, *args)
       self.permissions ||= ""
-      unless subject.blank? && action.blank? || has_permission?(subject, action, *args)
+      unless subject.blank? || action.blank? || has_permission?(subject, action, *args)
         self.permissions += "#{permission_to_s(subject, action, *args)}\n"
         true
       else
@@ -33,10 +33,10 @@ module FibzaRole
     end
     
     def add_permission!(subject, action, *args)
-      raise CannotAddPermission("Controller cannot be blank!") if subject.blank?
-      raise CannotAddPermission("Action cannot be blank!") if action.blank?
+      raise FibzaRole::CannotAddPermission("Controller cannot be blank!") if subject.blank?
+      raise FibzaRole::CannotAddPermission("Action cannot be blank!") if action.blank?
       if add_permission(subject, action, *args) == false
-        raise CannotAddPermission
+        raise FibzaRole::CannotAddPermission
       else
         true
       end
@@ -45,7 +45,7 @@ module FibzaRole
     # Revoke a permission from role in question.
     def revoke_permission(subject, action, *args)
       if !permissions.nil? && !subject.blank? && !action.blank? && has_permission?(subject, action, *args)
-        self.permissions.sub!("#{permission_to_s(subject, action, *args)}\n","")
+        self.permissions = permissions.sub("#{permission_to_s(subject, action, *args)}\n","")
         true
       else
         false
