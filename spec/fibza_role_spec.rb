@@ -89,8 +89,8 @@ describe FibzaRole do
     end
     
     it "permission controllers can be namespaced" do
-      role_test.add_permission("namespace/controller","index")
-      role_test.has_permission?("namespace/controller","index").should be_true
+      role_test.add_permission("namespace/controller", "index")
+      role_test.has_permission?("namespace/controller", "index").should be_true
     end
     
     it "permissions can be nil" do
@@ -98,15 +98,15 @@ describe FibzaRole do
     end
     
     it "add_permission/revoke_permission handles nil parameters" do
-      role_test.add_permission(nil,nil).should be_false
-      role_test.revoke_permission(nil,nil).should be_false
-      expect{ role_test.add_permission(nil,nil) }.to_not raise_error
-      expect{ role_test.revoke_permission(nil,nil) }.to_not raise_error
+      role_test.add_permission(nil, nil).should be_false
+      role_test.revoke_permission(nil, nil).should be_false
+      expect{ role_test.add_permission(nil, nil) }.to_not raise_error
+      expect{ role_test.revoke_permission(nil, nil) }.to_not raise_error
     end
     
     it "add_permission does not allow any param to be nil" do
-      role_test.add_permission(nil,"index").should be_false
-      role_test.add_permission("users",nil).should be_false
+      role_test.add_permission(nil, "index").should be_false
+      role_test.add_permission("users", nil).should be_false
     end
     
     it "add_permsission warns if a permission already assigned to role" do

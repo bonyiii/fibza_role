@@ -22,6 +22,7 @@ module ActiveRecord
           # We invoking active_record in template file we adding all the
           # attributes that got passed to the generator.
           invoke "active_record:model", [name], :migration => false
+          invoke "active_record:model", permission, :migration => false
         else
           puts "Model #{name} already exists"
         end
@@ -29,6 +30,7 @@ module ActiveRecord
       
       def copy_migration
         migration_template "migration.rb", File.join(Rails.root,"db","migrate","fibza_role_create_#{table_name}")
+        migration_template "permission_migration.rb", File.join(Rails.root,"db","migrate","fibza_role_create_permissions")
       end
       
       def inject_role_model_content
@@ -46,13 +48,22 @@ module ActiveRecord
   include FibzaRole::RoleAdditions
   
   has_and_belongs_to_many :#{user_model.tableize}
+  has_and_belongs_to_many :permission
   validates_presence_of :name
+  validates_uniqueness_of :name
 CONTENT
       end
       
       def user_contents
         <<CONTENT
   include FibzaRole::UserAdditions
+  
+  has_and_belongs_to_many :#{table_name}
+CONTENT
+      end
+
+      def permission_contents
+        <<CONTENT
   
   has_and_belongs_to_many :#{table_name}
 CONTENT

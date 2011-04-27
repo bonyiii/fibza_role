@@ -19,7 +19,7 @@ module FibzaRole
     # If super_admin role enabled, user who has super_admin role can ACCESS EVERYTHING!
     # 
     # == Params
-    # * +subject+ - controller in question
+    # * +controller+ - controller in question
     # * +action+ - controller's action in question
     # * +args+ - anything else
     #
@@ -27,11 +27,15 @@ module FibzaRole
     # Can current_user reach users controller index action?
     # current_user.can?("Users", "index")
     #
-    def can?(subject, action, *args)
+    def can?(controller, action, *args)
       return true if has_role?("super_admin")
       
+       @_permissions ||= roles.each { |role| role.permission } 
+       
       roles.each do |role|
-        return true if role.has_permission?(subject, action, *args)
+        @_permissions << role.permissions
+        return true if role.has_permission?(controller, action, *args)
+        
       end
       
       # If none of above match, default is false. 
@@ -39,8 +43,8 @@ module FibzaRole
     end
     
     # Convenience method, inverses can method.
-    def cannot?(subject, action, *args)
-      !can?(subject, action, *args)
+    def cannot?(controller, action, *args)
+      !can?(controller, action, *args)
     end
     
     # Return all permission that a user has. Not yet in use.
