@@ -66,6 +66,14 @@ CONTENT
         <<CONTENT
   
   has_and_belongs_to_many :#{table_name}
+  
+   def controller=(value)
+    self[:controller] = value.underscore
+  end
+  
+  def action=(value)
+    write_attribute(:action, value.downcase)
+  end
 CONTENT
       end
       

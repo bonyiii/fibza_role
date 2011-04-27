@@ -29,17 +29,11 @@ module FibzaRole
     #
     def can?(controller, action, *args)
       return true if has_role?("super_admin")
+      @_permissions ||= roles.inject([]){ |all, role| all + role.permissions }
       
-       @_permissions ||= roles.each { |role| role.permission } 
-       
-      roles.each do |role|
-        @_permissions << role.permissions
-        return true if role.has_permission?(controller, action, *args)
-        
-      end
-      
-      # If none of above match, default is false. 
-      false
+      @_permissions.detect do |permission|
+        permission.controller =~ /#{controller.underscore}/i && permission.action =~ /#{action.downcase}/i
+      end ? true : false
     end
     
     # Convenience method, inverses can method.
