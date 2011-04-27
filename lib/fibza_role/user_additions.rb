@@ -32,21 +32,13 @@ module FibzaRole
       @_permissions ||= roles.inject([]){ |all, role| all + role.permissions }
       
       @_permissions.detect do |permission|
-        permission.controller =~ /#{controller.underscore}/i && permission.action =~ /#{action.downcase}/i
+        permission.controller == controller.underscore && permission.action == action.downcase
       end ? true : false
     end
     
     # Convenience method, inverses can method.
     def cannot?(controller, action, *args)
       !can?(controller, action, *args)
-    end
-    
-    # Return all permission that a user has. Not yet in use.
-    def get_permissions(subject, action, *args)
-      permissions = []
-      roles.each do |role|
-        permissions if role.show_permission(subject, action, *args)
-      end
     end
     
     #private
