@@ -23,7 +23,7 @@ class FibzaRoleCreate<%= table_name.camelize %> < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :<%= table_name %>_<%= user_model.tableize %>
+    drop_table :<%= rel_table %>
     drop_table :<%= table_name %>
   end
 end
