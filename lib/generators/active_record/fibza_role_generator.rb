@@ -51,8 +51,6 @@ module ActiveRecord
       
       def role_contents
         <<CONTENT
-  include FibzaRole::RoleAdditions
-  
   has_and_belongs_to_many :#{user_model.tableize}
   has_and_belongs_to_many :permission
   validates_presence_of :name

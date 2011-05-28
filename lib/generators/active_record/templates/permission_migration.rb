@@ -1,6 +1,6 @@
 class FibzaRoleCreate<%= "permissions".camelize %> < ActiveRecord::Migration
   def self.up
-    create_table(<%= permission_model.tableize %>) do |t|
+    create_table(:<%= permission_model.tableize %>) do |t|
       t.string :controller
       t.string :action
       
