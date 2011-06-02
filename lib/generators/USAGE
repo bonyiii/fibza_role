@@ -1,0 +1,18 @@
+Description:
+    Generates a role model, a permission model and updates corresponding User model  
+    Any number of fields can be added to role if needed.
+
+Example:
+    rails generate active_record:role Role User Permission
+
+    This will create:
+        app/model/role.rb
+        db/migrate/fibza_role_create_timestamp_role.rb
+
+    To handle errors add following to application_controller.rb:
+      rescue_from FibzaRole::AccessDenied do |exception|
+        flash[:alert] = exception.message
+        redirect_to root_url
+      end
+    
+   
