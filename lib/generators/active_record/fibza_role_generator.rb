@@ -52,7 +52,8 @@ module ActiveRecord
       def role_contents
         <<CONTENT
   has_and_belongs_to_many :#{user_model.tableize}
-  has_and_belongs_to_many :permission
+  has_and_belongs_to_many :permissions
+  has_and_belongs_to_many :menus
   validates_presence_of :name
   validates_uniqueness_of :name
 CONTENT

@@ -29,7 +29,7 @@ module FibzaRole
     #
     def can?(controller, action, *args)
       return true if has_role?("super_admin")
-      @_permissions ||= roles.inject([]){ |all, role| all + role.permissions }
+      @_permissions ||= roles.inject([]){ |all, role| all + role.permissions.to_a }
       
       @_permissions.detect do |permission|
         permission.controller == controller.underscore && permission.action == action.downcase

@@ -3,14 +3,10 @@ class FibzaRoleCreate<%= table_name.camelize %> < ActiveRecord::Migration
     create_table(:<%= table_name %>) do |t|
       t.string :name
       t.text   :description
-      t.text   :permissions
-      
-      #t.text :other_params
-      
+
     <% for attribute in attributes -%>
       t.<%= attribute.type %> :<%= attribute.name %>
     <% end -%>
-    
       t.timestamps
     end
   

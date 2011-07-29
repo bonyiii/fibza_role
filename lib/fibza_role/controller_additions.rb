@@ -17,7 +17,7 @@ module FibzaRole
     # before_filter :check_rights
     def check_rights(*args)
       
-      if current_user.can?(params[:controller], params[:action], *params)
+      if current_user.can?(controller_name, action_name, *params)
         return true
       else
         raise AccessDenied.new#(message, action, subject)
@@ -27,7 +27,7 @@ module FibzaRole
     
     # If "namespace_controller_action" or "controller_action" method exists in "app/models/fibza_role/right.rb", it checks rules defined there.
     # If no such method exists, simply checks whether current_user has a role which has a permission "controller::action".
-    # If any returns "true" authorization passese otherwise raise an AccessDenied error.
+    # If any returns "true" authorization passes otherwise raise an AccessDenied error.
     #
     # == Params
     # * +controller+ - Name of controller in question
@@ -43,13 +43,13 @@ module FibzaRole
     # The controller::method must be defined in right.rb
     def authorize!(*args)
       
-      controller = params[:controller].gsub("/","_")
-      action = params[:action]
+      controller = controller_name.gsub("/","_")
+      right = FibzaRole::Right.new
 
-      if FibzaRole::Right.methods.include?("#{controller.underscore}_#{action.downcase}".to_sym)
-        authorized = FibzaRole::Right.send("#{controller.underscore}_#{action.downcase}", current_user, *args)
+      if right.methods.include?("#{controller.underscore}_#{action_name.downcase}".to_sym)
+        authorized = right.send("#{controller.underscore}_#{action_name.downcase}", current_user, *args)
       else
-        authorized = current_user.can?(controller, action)
+        authorized = current_user.can?(controller, action_name)
       end
       #raise AccessDenied.new#(message, action, subject) unless authorized
       unless authorized
