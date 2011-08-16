@@ -1,5 +1,5 @@
 Description:
-    Generates a role model, a permission model and updates corresponding User model  
+    Generates a role model, a permission model and updates corresponding User model
     Any number of fields can be added to role if needed.
 
 Example:
@@ -14,5 +14,3 @@ Example:
         flash[:alert] = exception.message
         redirect_to root_url
       end
-    
-   
