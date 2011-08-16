@@ -61,8 +61,9 @@ module FibzaRole
       end
     end # authorize!(*args)
     
-    # A shortcut for current_user.can usefull on views to save some typeing.
+    # A shortcut for current_user.can useful on views to save some typeing.
     def can?(*args)
+      debugger
       current_user.can?(*args)
     end
     

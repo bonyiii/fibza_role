@@ -12,6 +12,7 @@ class FibzaRoleCreate<%= "permissions".camelize %> < ActiveRecord::Migration
    end
   
    add_index "<%= permission_rel_table %>", [ :<%= class_name.underscore %>_id, :<%= permission_model.underscore %>_id ], :unique => true
+   add_index :<%= permission_model.tableize %>, [ :controller, :action ], :unique => true
   end
 
   def self.down
