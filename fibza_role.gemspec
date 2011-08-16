@@ -9,5 +9,6 @@ Gem::Specification.new do |s|
   s.email = "boni@twine.hu"
   s.homepage = "http://github.com/bonyiii/db_role"
   s.summary = "Database base authorization solution for Rails."
-  s.description = "Database base authorization. Users may have multipel roles. Handling controller actions acls and model attribute read/write premissions"
+  s.description = "Database based authorization. Users may have multipel roles. Handling controller actions acls and model attribute read/write premissions"
+  s.add_runtime_dependency("rails")
 end

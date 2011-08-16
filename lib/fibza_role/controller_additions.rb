@@ -5,10 +5,12 @@ module FibzaRole
       end
       
       base.extend ClassMethods
+      base.helper_method :can?
     end
     
     module ClassMethods
-    end
+      
+    end  
     
     # Can be called as a before_filter whitin any controller,
     # Checks if current_user can reach the given action.
@@ -22,7 +24,7 @@ module FibzaRole
       else
         raise AccessDenied.new#(message, action, subject)
       end
-    
+      
     end
     
     # If "namespace_controller_action" or "controller_action" method exists in "app/models/fibza_role/right.rb", it checks rules defined there.
@@ -42,22 +44,26 @@ module FibzaRole
     # Check if user has right to access product model in question. 
     # The controller::method must be defined in right.rb
     def authorize!(*args)
-      
       controller = controller_name.gsub("/","_")
       right = FibzaRole::Right.new
-
+      
       if right.methods.include?("#{controller.underscore}_#{action_name.downcase}".to_sym)
         authorized = right.send("#{controller.underscore}_#{action_name.downcase}", current_user, *args)
       else
         authorized = current_user.can?(controller, action_name)
       end
+
       #raise AccessDenied.new#(message, action, subject) unless authorized
       unless authorized
         raise AccessDenied.new
       else
         authorized
       end
-      
+    end # authorize!(*args)
+    
+    # A shortcut for current_user.can useful on views to save some typeing.
+    def can?(*args)
+      current_user.can?(*args)
     end
     
   end
