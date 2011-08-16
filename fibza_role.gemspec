@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name = "fibza_role"
   s.files = Dir["lib/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.version = "0.0.1"
-  
+
   s.author = "Bonaventura Fleischmann"
   s.email = "boni@twine.hu"
   s.homepage = "http://github.com/bonyiii/db_role"
