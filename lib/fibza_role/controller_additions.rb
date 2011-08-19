@@ -46,15 +46,16 @@ module FibzaRole
     def authorize!(*args)
       controller = controller_name.gsub("/","_")
       right = FibzaRole::Right.new
-      
+      #exception = args.extract_options!
+
       if right.methods.include?("#{controller.underscore}_#{action_name.downcase}".to_sym)
         authorized = right.send("#{controller.underscore}_#{action_name.downcase}", current_user, *args)
       else
         authorized = current_user.can?(controller, action_name)
       end
-
-      #raise AccessDenied.new#(message, action, subject) unless authorized
+      
       unless authorized
+        #raise AccessDenied.new(exception[:message], exception[:controller], exception[:action])
         raise AccessDenied.new
       else
         authorized
