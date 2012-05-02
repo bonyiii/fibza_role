@@ -21,6 +21,7 @@ module FibzaRole
     # == Params
     # * +controller+ - controller in question
     # * +action+ - controller's action in question
+    # *   if user has manage_all permission (in action column) on a controller then he/she can run all action
     # * +args+ - anything else
     #
     # == Example 
@@ -32,7 +33,7 @@ module FibzaRole
       @_permissions ||= roles.inject([]){ |all, role| all + role.permissions.to_a }
       
       @_permissions.detect do |permission|
-        permission.controller == controller.underscore && permission.action == action.downcase
+	permission.controller == controller.underscore && (permission.action == 'manage_all' || permission.action == action.downcase)
       end ? true : false
     end
     
