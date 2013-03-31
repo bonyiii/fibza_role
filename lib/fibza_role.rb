@@ -1,4 +1,4 @@
-require_dependency "fibza_role/controller_additions"
+require "fibza_role/controller_additions"
 #require_dependency "fibza_role/exceptions"
 #require_dependency "fibza_role/user_additions"
 
